@@ -26,7 +26,7 @@ var getCfgEntry = function(){
         }
     */
 }();
-
+var chunks = Object.keys(getCfgEntry);
 var config = {
   entry: getCfgEntry,
   output: {
@@ -58,7 +58,7 @@ var config = {
     }),
     new CommonsChunkPlugin({
         name: 'vendors', // 将公共模块提取，生成名为`vendors`的chunk
-        chunks: Object.keys(getCfgEntry), //chunks 看起来就是这样 ["a", "b", "index"],
+        chunks: chunks, //chunks 看起来就是这样 ["a", "b", "index"],
         minChunks: chunks.length // 提取所有entry共同依赖的模块 ， 这里 chunks.length的意思是 比如每个页面里面都使用了$的时候 jQuery才会被打包到 vendos.js里面。
     }),
     new ExtractTextPlugin('styles/[name].css'),//单独使用link标签加载css并设置路径，相对于output配置中的publickPath
