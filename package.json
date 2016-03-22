@@ -1,0 +1,27 @@
+{
+  "name": "webpack-mutil-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm install webpack webpack-dev-server file-loader css-loader style-loader html-loader url-loader jquery html-webpack-plugin extract-text-webpack-plugin --save-dev",
+    "dev": "webpack-dev-server --progress --profile --colors",
+    "mb": "export PRODUCTION=production && webpack --progress --hide-modules",
+    "wb": "set PRODUCTION=production && webpack --progress --hide-modules"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.12.0",
+    "jquery": "^2.2.2",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
