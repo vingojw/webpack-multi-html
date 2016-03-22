@@ -7,7 +7,15 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');//webpack中生成HTML的
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
-var debug = process.env.PRODUCTION !== 'production';
+var production = process.env.PRODUCTION == 'production';
+
+// package.json 里面的   "wb": "set PRODUCTION=production&& webpack --progress --hide-modules"
+//                                                      ^注意不能有空格
+//            如果写成了 "wb": "set PRODUCTION=production && webpack --progress --hide-modules"
+//                                                       ^那么获取到的process.env.PRODUCTION 为 "production ",后面会带空格
+// console.log(process.env.PRODUCTION.length);
+// console.log('production'.length);
+
 
 //获取entry
 var getCfgEntry = function(){
@@ -62,12 +70,6 @@ var config = {
         minChunks: chunks.length // 提取所有entry共同依赖的模块 ， 这里 chunks.length的意思是 比如每个页面里面都使用了$的时候 jQuery才会被打包到 vendos.js里面。
     }),
     new ExtractTextPlugin('styles/[name].css'),//单独使用link标签加载css并设置路径，相对于output配置中的publickPath
-    debug ? function() {} : new UglifyJsPlugin({ //压缩代码
-        compress: {
-            warnings: false
-        },
-        except: ['$super', '$', 'exports', 'require'] //排除关键字
-    }),
     new webpack.HotModuleReplacementPlugin(), //热加载
   ],
   devServer: {
@@ -79,6 +81,17 @@ var config = {
     hot: true
   }
 }
+
+//是否压缩代码
+if(production){
+    config.plugins.push(new UglifyJsPlugin({ //压缩代码
+        compress: {
+            warnings: false
+        },
+        except: ['$super', '$', 'exports', 'require',] //排除关键字
+    }));
+}
+
 
 //为每个页面配置html
 foreachFolder('./src/',function(list){

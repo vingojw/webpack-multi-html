@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm install webpack webpack-dev-server file-loader css-loader style-loader html-loader url-loader jquery html-webpack-plugin extract-text-webpack-plugin --save-dev",
     "dev": "webpack-dev-server --progress --profile --colors",
-    "mb": "export PRODUCTION=production && webpack --progress --hide-modules",
-    "wb": "set PRODUCTION=production && webpack --progress --hide-modules"
+    "mb": "export PRODUCTION=production&& webpack --progress --hide-modules",
+    "wb": "set PRODUCTION=production&& webpack --progress --hide-modules"
   },
   "author": "",
   "license": "ISC",
