@@ -56,7 +56,7 @@ var config = {
             loader: 'file-loader?name=fonts/[name].[ext]'
         }, {
             test: /\.(png|jpe?g|gif)$/,
-            loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
+            loader: 'url-loader?limit=4096&name=imgs/[name]-[hash].[ext]'
         }
     ]
   },
@@ -73,6 +73,7 @@ var config = {
     new webpack.HotModuleReplacementPlugin(), //热加载
   ],
   devServer: {
+    contentBase:'./build',
     publicPath:'http://localhost:8080/',
     proxy: {
         "*": "http://localhost:54999"  //开发的时候接口转发
@@ -82,14 +83,19 @@ var config = {
   }
 }
 
+
 //是否压缩代码
 if(production){
+
     config.plugins.push(new UglifyJsPlugin({ //压缩代码
         compress: {
             warnings: false
         },
-        except: ['$super', '$', 'exports', 'require',] //排除关键字
+        mangle: {
+            except: ['$super', '$', 'exports', 'require'] //排除关键字
+        }
     }));
+    //config.plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false } }));
 }
 
 
@@ -107,12 +113,16 @@ foreachFolder('./src/',function(list){
                 chunks: ['vendors', name],//需要引入的chunk，不配置就会引入所有页面的资源
                 minify: { //压缩HTML文件
                     removeComments: true, //移除HTML中的注释
-                    collapseWhitespace: false //删除空白符与换行符
+                    collapseWhitespace: false, //删除空白符与换行符
+                    ignoreCustomFragments:[
+                        /\{\{[\s\S]*?\}\}/g  //不处理 {{}} 里面的 内容
+                    ]
                 }
             }));
         }
     }
 });
+
 
 module.exports = config;
 
