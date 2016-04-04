@@ -16,6 +16,7 @@ var production = process.env.PRODUCTION == 'production';
 // console.log(process.env.PRODUCTION.length);
 // console.log('production'.length);
 
+deleteFolderRecursive('./build');
 
 //获取entry
 var getCfgEntry = function(){
@@ -53,7 +54,7 @@ var config = {
             loader: 'file-loader?name=fonts/[name].[ext]'
         }, {
             test: /\.(png|jpe?g|gif)$/,
-            loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
+            loader: 'url-loader?limit=1024&name=images/[name]-[hash].[ext]'
         }
     ]
   },
@@ -66,7 +67,7 @@ var config = {
         chunks: chunks, //chunks 看起来就是这样 ["a", "b", "index"],
         minChunks: chunks.length // 提取所有entry共同依赖的模块 ， 这里 chunks.length的意思是 比如每个页面里面都使用了$的时候 jQuery才会被打包到 vendos.js里面。
     }),
-    new ExtractTextPlugin('styles/[name].css'),//单独使用link标签加载css并设置路径，相对于output配置中的publickPath
+    new ExtractTextPlugin('[name].css'),//单独使用link标签加载css并设置路径，相对于output配置中的publickPath
     new webpack.HotModuleReplacementPlugin(), //热加载
   ],
   devServer: {
@@ -142,3 +143,19 @@ function foreachFolder(path, cb){
      */
     return cb(fileList);
 }
+//删除文件夹 ，递归删除
+function deleteFolderRecursive(path) {
+    var files = [];
+    if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+            var curPath = path + "/" + file;
+            if(fs.statSync(curPath).isDirectory()) { // recurse 查看文件是否是文件夹
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
+};
