@@ -48,15 +48,12 @@ var config = {
         {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract('style', 'css')
-        }, {
-            test: /\.html$/,
-            loader: "html"
-        }, {
+        },{
             test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             loader: 'file-loader?name=fonts/[name].[ext]'
         }, {
             test: /\.(png|jpe?g|gif)$/,
-            loader: 'url-loader?limit=4096&name=imgs/[name]-[hash].[ext]'
+            loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
         }
     ]
   },

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<%= require('html!./common/meta.html')%>
     <title>index</title>
 </head>
 <body>
@@ -8,6 +9,7 @@
     <a href="index.html">index</a>
     <a href="a.html">aaaa</a>
     <a href="b.html">bbbb</a>
-    <img src="./images/index.png">
+    <img src="<%= require('url-loader?limit=8192&name=imgs/[name]-[hash].[ext]!./images/index.png')%>.">
+    <%= require('html!./common/parital.html')%>
 </body>
 </html>

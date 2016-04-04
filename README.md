@@ -2,6 +2,13 @@
 
 script和css文件夹里面的命名都要和html保持一致，并且只能为一层。
 每个html都会注入vendors.js 和 vendors.css
-貌似还不能在html里面直接`<img src="../images/a.png"/>` 这样压缩后会报错。
+common文件夹中是公共的片段
+
+如果想在html里面引入图片，需要
+
+```
+<img src="<%= require('url-loader?limit=8192&name=imgs/[name]-[hash].[ext]!./images/index.png')%>.">
+```
+
 参考：
 [https://github.com/vhtml/webpack-MultiPage-static](https://github.com/vhtml/webpack-MultiPage-static)
