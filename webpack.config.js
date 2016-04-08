@@ -71,7 +71,7 @@ var config = {
     new webpack.HotModuleReplacementPlugin(), //热加载
   ],
   devServer: {
-    contentBase:'./build',
+    contentBase:'./src',
     publicPath:'http://localhost:8080/',
     proxy: {
         "*": "http://localhost:54999"  //开发的时候接口转发

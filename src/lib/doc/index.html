@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="./vue.js"></script>
+	<script src="./config.js"></script>
+	<style>
+		*{
+			box-sizing:border-box;
+		}
+		html,body,pre{
+			margin:0;
+		}
+		.nav{
+			position: fixed;
+			width: 180px;
+			height: 100%;
+			overflow-y: auto;
+		}
+		.nav a{
+			display:block;
+			margin:5px;
+			border-radius: 3px;
+			color:#fff;
+			background: #03A9F4;
+			text-decoration: none;
+			font-size: 12px;
+			padding:3px;
+		}
+		.nav a.choose{
+			background: #9C27B0;
+		}
+		.main{
+			margin-left: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="nav">
+		<p>文件列表:</p>
+		<a v-for="(k,v) in fileList" :class="{choose:choose==k}" @click="choose=k">{{k}}</a>
+		<p>api</p>
+		<a v-for="d in renderData" href="#{{d.title}}" :class="{choose:chooseItemIndex==$index}" @click="chooseItemIndex=$index">{{d.title}}</a>
+	</div>
+	<div class="main">
+		<div v-for="d in renderData">
+			<a id="{{d.title}}"></a>
+			<pre>{{d.content}}</pre>
+		</div>
+		<div style="height:100vh;"></div>
+	</div>
+</body>
+<script>
+	var fileList = {};
+	config.forEach(function(fileName){
+		var script = document.createElement('script');
+		script.src = fileName
+		document.body.appendChild(script);
+		script.onload = function(){
+			Vue.set(fileList,fileName,window[fileName.slice(0,-3)]);
+		}
+	});
+	new Vue({
+		el:'body',
+		data:{
+			fileList:fileList,
+			choose:'',
+			chooseItemIndex:''
+		},
+		computed:{
+			renderData:function(){
+				window.scrollTo(0,0);
+				this.chooseItemIndex = '';
+				return this.fileList[this.choose] || [];
+			}
+		}
+	});
+</script>
+</html>

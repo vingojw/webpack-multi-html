@@ -1,0 +1,1 @@
+config=["lib1.js","lib2.js"]
