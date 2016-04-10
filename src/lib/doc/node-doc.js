@@ -23,7 +23,7 @@ function createDoc(fileName){
 	fs.readFile(__dirname+'/../'+fileName, function (err, data) {
 	  if (err) throw err;
 	  while(s=reg.exec(data)){
-	  	var ss = s[1].split(/\r\n/)[0];
+	  	var ss = s[1].split(/\r?\n/)[0];
 	  	sr.push({title:ss.trim(),content:s[1]});
 	  };
 	  fs.writeFile(__dirname+'/'+fileName, fileName.slice(0,-3)+'='+JSON.stringify(sr), function (err) {
